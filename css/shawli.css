@@ -1,0 +1,23 @@
+body {
+    font-family: "courier", "courier new", "monospace";
+}
+
+.book_title {
+}
+
+.book_author {
+    color:#A01409
+}
+
+a {
+    color: #999999; 
+text-decoration: none}
+a:hover {
+    color: #999999; 
+text-decoration: underline}
+
+.footer {
+    font-size: 0.8em;
+    color:#999999;
+}
+
