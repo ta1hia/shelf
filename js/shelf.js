@@ -39,7 +39,9 @@ BookShelf = {
                 text = ""
                 books = shelves[i].books
                 for (j = 0; j < shelves[i].total; j++) {
-                    text += "<div class='book'><span class='book_title'>" + books[j].title + "</span>, <span class='book_author'>" + books[j].author + "</span></div>"
+                    if (typeof books[j] != 'undefined') {
+                        text += "<div class='book'><span class='book_title'>" + books[j].title + "</span>, <span class='book_author'>" + books[j].author + "</span></div>"
+                    }
                 }
                 document.getElementById(shelves[i].name).innerHTML = text
             }
