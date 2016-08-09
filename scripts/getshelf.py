@@ -4,6 +4,8 @@ import json
 import requests
 
 KEY = os.environ.get("GOODREADS_ACCESS_KEY")
+PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+
 def request_user_shelves(parms):
     p = dict(parms)
     p.update({"key": KEY})
@@ -41,18 +43,23 @@ def create_shelf_file():
             left -= 200
             pg+=1
         shelves.append({"name":name, "total":total, "books":books})
-    with open('shelf.tmp.json', 'w') as outfile:
+    with open(os.path.join(PATH, 'shelf.tmp.json'), 'w') as outfile:
         json.dump(shelves, outfile)
-    outfile.close()
     format_data()
 
 
 def format_data():
-    f1 = open('shelf.tmp.json', 'r+')
+    temp_file = os.path.join(PATH, 'shelf.tmp.json')
+    f1 = open(temp_file, 'r+')
     content = f1.read()
     f1.seek(0,0)
 
-    f2 = open('../js/data.js', 'w')
+    data_file = os.path.abspath(os.path.join(PATH, "js", "data.js"))
+    try:
+        os.remove(data_file)
+    except OSError:
+        pass
+    f2 = open(data_file, 'w')
     f2.write("var data = '" + content.replace("'", "&#39;") + "';")
     f1.close()
     f2.close()
