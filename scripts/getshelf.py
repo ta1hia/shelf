@@ -3,9 +3,10 @@ import os
 import json
 import requests
 
+KEY = os.environ.get("GOODREADS_ACCESS_KEY")
 def request_user_shelves(parms):
     p = dict(parms)
-    p.update({"key":os.environ.get("GOODREADS_ACCESS_KEY")})
+    p.update({"key": KEY})
     resp = requests.get("https://www.goodreads.com/shelf/list.xml",p)
     data_dict = xmltodict.parse(resp.content)
     data_dict = data_dict['GoodreadsResponse']['shelves']
@@ -26,6 +27,9 @@ def request_shelf_books(parms):
     return books
 
 def create_shelf_file():
+    if KEY is None:
+        print("GOODREADS_ACCESS_KEY not set")
+        return
     shelf_info = request_user_shelves({"user_id": "4933497-tahia"})
     shelves = []
     for name,total in shelf_info.items():
